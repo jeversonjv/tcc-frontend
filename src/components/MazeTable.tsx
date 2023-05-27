@@ -14,20 +14,24 @@ import {
   Th,
   Thead,
   Tr,
-  NumberInput,
-  NumberInputField,
-  FormLabel,
-  InputLeftElement,
-  InputGroup,
   Text,
   Button,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import Sudoku from "./Sudoku";
 
-import { QueenIcon } from "./QueenIcon";
+import { generateSudokuBoard } from "../utils/generateSudokuBoard";
+import { useEffect, useState } from "react";
 
-const NQueensTable: React.FC = () => {
-  const router = useRouter();
+const MazeTable: React.FC = () => {
+  const [board, setBoard] = useState<number[][]>();
+
+  useEffect(() => {
+    setBoard(generateSudokuBoard());
+  }, []);
+
+  const generateNewBoard = () => {
+    setBoard(generateSudokuBoard());
+  };
 
   return (
     <>
@@ -35,7 +39,7 @@ const NQueensTable: React.FC = () => {
         <Table colorScheme="whiteAlpha" variant="simple">
           <Thead>
             <Tr>
-              <Th>Número de Rainhas</Th>
+              <Th>ID</Th>
               <Th>Status</Th>
               <Th>Tempo de Processamento</Th>
               <Th></Th>
@@ -44,15 +48,13 @@ const NQueensTable: React.FC = () => {
           <Tbody>
             <Tr
               cursor="pointer"
-              role="link"
               transition="backdrop-filter 0.2s"
               _hover={{
                 backdropFilter: "brightness(1.15)",
               }}
-              onClick={() => router.push(`/nqueen/${1}`)}
             >
               <Td fontWeight="bold" color="gray.200">
-                15 <QueenIcon boxSize="18px" />
+                15
               </Td>
               <Td>
                 <Badge colorScheme="green">Resolvido</Badge>
@@ -70,7 +72,7 @@ const NQueensTable: React.FC = () => {
               }}
             >
               <Td fontWeight="bold" color="gray.200">
-                10 <QueenIcon boxSize="18px" />
+                10
               </Td>
               <Td>
                 <Badge
@@ -127,41 +129,30 @@ const NQueensTable: React.FC = () => {
                 color="gray.200"
                 p={4}
                 display="flex"
-                justifyContent="space-between"
+                flexDir="column"
+                alignItems="center"
               >
-                <Text maxW="45%">
-                  Insira o número N de rainhas que serão posicionadas em um
-                  tabuleiro NxN sem que uma rainha mate a outra.
+                <Text maxW="45%" mb={5}>
+                  Gere tabuleiros Sudoku 9x9 para serem resolvidos.
                 </Text>
-                <Box>
-                  <FormLabel htmlFor="numQueens">Número de Rainhas</FormLabel>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<QueenIcon color="gray.300" />}
-                    />
-                    <NumberInput
-                      variant="filled"
-                      focusBorderColor="blue.500"
-                      name="numQueens"
-                      id="numQueens"
-                      min={4}
-                    >
-                      <NumberInputField
-                        pl="32px"
-                        bg="gray.900"
-                        _hover={{ bg: "gray.900" }}
-                      />
-                    </NumberInput>
-                    <Button
-                      ml={5}
-                      bg="blue.200"
-                      _hover={{ bg: "blue.300" }}
-                      color="blue.800"
-                    >
-                      Resolver
-                    </Button>
-                  </InputGroup>
+                {board && <Sudoku board={board} />}
+                <Box mt={5}>
+                  <Button
+                    mr={5}
+                    bg="teal.200"
+                    _hover={{ bg: "teal.400" }}
+                    color="teal.800"
+                    onClick={generateNewBoard}
+                  >
+                    Gerar
+                  </Button>
+                  <Button
+                    bg="blue.200"
+                    _hover={{ bg: "blue.300" }}
+                    color="blue.800"
+                  >
+                    Resolver
+                  </Button>
                 </Box>
               </AccordionPanel>
             </>
@@ -172,4 +163,4 @@ const NQueensTable: React.FC = () => {
   );
 };
 
-export default NQueensTable;
+export default MazeTable;

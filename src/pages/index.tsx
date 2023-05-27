@@ -11,6 +11,7 @@ import {
 
 import NQueensTable from "@/components/NQueensTable";
 import SudokuTable from "@/components/SudokuTable";
+import MazeTable from "@/components/MazeTable";
 
 export default function Home() {
   return (
@@ -36,6 +37,13 @@ export default function Home() {
             <Heading mb={5}>Sudoku</Heading>
             <Card bg="gray.800">
               <SudokuTable />
+            </Card>
+          </Box>
+
+          <Box mt="100px">
+            <Heading mb={5}>Maze Solver</Heading>
+            <Card bg="gray.800">
+              <MazeTable />
             </Card>
           </Box>
         </Container>
