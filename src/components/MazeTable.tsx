@@ -22,7 +22,12 @@ import Sudoku from "./Sudoku";
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
 
-const MazeTable: React.FC = () => {
+type Prop = {
+  mazeData: any[];
+}
+
+
+const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
   const [board, setBoard] = useState<number[][]>();
 
   useEffect(() => {

@@ -22,7 +22,11 @@ import Sudoku from "./Sudoku";
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
 
-const SudokuTable: React.FC = () => {
+type Prop = {
+  sudokuData: any[];
+}
+
+const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
   const [board, setBoard] = useState<number[][]>();
 
   useEffect(() => {

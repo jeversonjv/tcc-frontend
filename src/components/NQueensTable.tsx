@@ -26,7 +26,11 @@ import { useRouter } from "next/router";
 
 import { QueenIcon } from "./QueenIcon";
 
-const NQueensTable: React.FC = () => {
+type Prop = {
+  nQueensData: any[];
+}
+
+const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
   const router = useRouter();
 
   return (

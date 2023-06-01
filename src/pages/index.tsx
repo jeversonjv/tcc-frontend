@@ -6,14 +6,71 @@ import {
   BreadcrumbLink,
   Card,
   Container,
-  Heading,
+  Heading
 } from "@chakra-ui/react";
 
 import NQueensTable from "@/components/NQueensTable";
 import SudokuTable from "@/components/SudokuTable";
 import MazeTable from "@/components/MazeTable";
+import axios from 'axios';
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
+
+  const [nQueens, setNQueens] = useState<[] | null>(null);
+  const [sudoku, setSudoku] = useState<[] | null>(null);
+  const [mazeSolver, setMazeSolver] = useState<[] | null>(null);
+
+  const fetchNQueenData = async () => {
+    try {
+      const response = await axios.get(`${apiBaseUrl}/n-queen`);
+      setNQueens(response.data);
+    } catch (error) {
+      setNQueens([]);
+    }
+  };
+
+  const fetchSudoku = async () => {
+    try {
+      const response = await axios.get(`${apiBaseUrl}/sudoku`);
+      setSudoku(response.data);
+    } catch (error) {
+      setSudoku([]);
+    }
+  };
+
+  const fetchMazeSolver = async () => {
+    try {
+      const response = await axios.get(`${apiBaseUrl}/maze-resolver`);
+      setMazeSolver(response.data);
+    } catch (error) {
+      setSudoku([]);
+    }
+  };
+
+  useEffect(() => {
+    Promise.all([
+      fetchNQueenData(),
+      fetchSudoku(),
+      fetchMazeSolver()
+    ]);
+
+    const intervalId = setInterval(() => {
+      Promise.all([
+        fetchNQueenData(),
+        fetchSudoku(),
+        fetchMazeSolver()
+      ]);
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
   return (
     <>
       <Head>
@@ -29,21 +86,21 @@ export default function Home() {
           <Box>
             <Heading mb={5}>N-Queen</Heading>
             <Card bg="gray.800">
-              <NQueensTable />
+              {nQueens ? <NQueensTable nQueensData={nQueens} /> : <p>Carregando...</p>}
             </Card>
           </Box>
 
           <Box mt="100px">
             <Heading mb={5}>Sudoku</Heading>
             <Card bg="gray.800">
-              <SudokuTable />
+              {sudoku ? <SudokuTable sudokuData={sudoku} /> : <p>Carregando...</p>}
             </Card>
           </Box>
 
           <Box mt="100px">
             <Heading mb={5}>Maze Solver</Heading>
             <Card bg="gray.800">
-              <MazeTable />
+              {mazeSolver ? <MazeTable mazeData={mazeSolver} /> : <p>Carregando...</p>}
             </Card>
           </Box>
         </Container>
