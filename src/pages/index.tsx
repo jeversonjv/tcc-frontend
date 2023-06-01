@@ -70,7 +70,6 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
     <>
       <Head>
@@ -86,7 +85,7 @@ export default function Home() {
           <Box>
             <Heading mb={5}>N-Queen</Heading>
             <Card bg="gray.800">
-              {nQueens ? <NQueensTable nQueensData={nQueens} /> : <p>Carregando...</p>}
+              {nQueens ? <NQueensTable nQueensData={nQueens} fetchNQueenData={fetchNQueenData} /> : <p>Carregando...</p>}
             </Card>
           </Box>
 

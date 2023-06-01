@@ -21,9 +21,11 @@ import {
   InputGroup,
   Text,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-
+import { useState } from "react";
+import axios from "axios";
 import { QueenIcon } from "./QueenIcon";
 import RowTableEmpty from "./RowTableEmpty";
 
@@ -39,10 +41,14 @@ export type NQueensData = {
 
 type Prop = {
   nQueensData: NQueensData[];
+  fetchNQueenData: () => Promise<void>;
 }
 
-const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
+const NQueensTable: React.FC<Prop> = ({ nQueensData, fetchNQueenData }: Prop) => {
+  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
   const router = useRouter();
+  const toast = useToast();
+  const [numberOfQueens, setNumberOfQueens] = useState<number>(4);
 
   const renderRows = (rows: NQueensData[]) => {
     if (!rows.length) return <RowTableEmpty />;
@@ -116,6 +122,37 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
     );
   }
 
+  const createRecordNQueen = async () => {
+    try {
+      const response = await axios.post(`${apiBaseUrl}/n-queen/${numberOfQueens}`, {
+        method: 'POST',
+      });
+
+      if (response.status === 201) {
+        await fetchNQueenData();
+      }
+
+      toast({
+        title: "Registro criado com sucesso",
+        description: "O registro foi criado com sucesso.",
+        status: "success",
+        isClosable: true,
+        duration: 5000,
+        position: "top-right",
+      })
+
+    } catch (error) {
+      toast({
+        title: "Erro ao criar registro",
+        description: "Ocorreu um erro ao criar o registro, tente novamente mais tarde.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      })
+    }
+  }
+
   return (
     <>
       <TableContainer>
@@ -182,6 +219,8 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
                       name="numQueens"
                       id="numQueens"
                       min={4}
+                      value={numberOfQueens}
+                      onChange={(value) => setNumberOfQueens(Number(value))}
                     >
                       <NumberInputField
                         pl="32px"
@@ -194,6 +233,7 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
                       bg="blue.200"
                       _hover={{ bg: "blue.300" }}
                       color="blue.800"
+                      onClick={() => createRecordNQueen()}
                     >
                       Resolver
                     </Button>
