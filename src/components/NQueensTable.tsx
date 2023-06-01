@@ -26,14 +26,24 @@ import { useRouter } from "next/router";
 
 import { QueenIcon } from "./QueenIcon";
 
+export type NQueensData = {
+  id: string;
+  numberOfQueens: number;
+  processing: {
+    status: string;
+    totalTimeProcess: number;
+  }
+}
+
+
 type Prop = {
-  nQueensData: any[];
+  nQueensData: NQueensData[];
 }
 
 const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
   const router = useRouter();
 
-  const renderRows = (nQueensData: any[]) => {
+  const renderRows = (nQueensData: NQueensData[]) => {
     return nQueensData.map((row: any) => (
       row.processing?.status === "PENDING" 
         ? renderPendingRow(row)
@@ -41,7 +51,7 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
     ));
   }
 
-  const renderCompletedRow = (row: any) => {
+  const renderCompletedRow = (row: NQueensData) => {
     return (
       <Tr
         cursor="pointer"
@@ -66,7 +76,7 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
     );
   }
 
-  const renderPendingRow = (row: any) => {
+  const renderPendingRow = (row: NQueensData) => {
     return (
       <Tr
         cursor="not-allowed"

@@ -22,8 +22,17 @@ import Sudoku from "./Sudoku";
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
 
+export type MazeData = {
+  id: string;
+  numberOfQueens: number;
+  processing: {
+    status: string;
+    totalTimeProcess: number;
+  }
+}
+
 type Prop = {
-  mazeData: any[];
+  mazeData: MazeData[];
 }
 
 

@@ -22,8 +22,17 @@ import Sudoku from "./Sudoku";
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
 
+export type SudokuData = {
+  id: string;
+  numberOfQueens: number;
+  processing: {
+    status: string;
+    totalTimeProcess: number;
+  }
+}
+
 type Prop = {
-  sudokuData: any[];
+  sudokuData: SudokuData[];
 }
 
 const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {

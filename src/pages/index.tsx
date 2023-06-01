@@ -11,7 +11,7 @@ import {
 
 import NQueensTable from "@/components/NQueensTable";
 import SudokuTable from "@/components/SudokuTable";
-import MazeTable from "@/components/MazeTable";
+import MazeTable, { MazeData } from "@/components/MazeTable";
 import axios from 'axios';
 import { useEffect, useState } from "react";
 
@@ -20,7 +20,7 @@ export default function Home() {
 
   const [nQueens, setNQueens] = useState<[] | null>(null);
   const [sudoku, setSudoku] = useState<[] | null>(null);
-  const [mazeSolver, setMazeSolver] = useState<[] | null>(null);
+  const [mazeSolver, setMazeSolver] = useState<MazeData[] | null>(null);
 
   const fetchNQueenData = async () => {
     try {
