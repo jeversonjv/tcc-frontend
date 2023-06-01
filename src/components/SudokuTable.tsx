@@ -21,6 +21,7 @@ import Sudoku from "./Sudoku";
 
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
+import RowTableEmpty from "./RowTableEmpty";
 
 export type SudokuData = {
   id: string;
@@ -47,6 +48,8 @@ const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
   };
 
   const renderRows = (rows: SudokuData[]) => {
+    if (!rows.length) return <RowTableEmpty />;
+
     return rows.map((row) => (
       row.processing?.status === "COMPLETED" ? renderCompletedRow(row) : renderPendingRow(row)
     ));

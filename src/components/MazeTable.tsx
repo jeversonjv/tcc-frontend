@@ -21,6 +21,7 @@ import Sudoku from "./Sudoku";
 
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
+import RowTableEmpty from "./RowTableEmpty";
 
 export type MazeData = {
   id: string;
@@ -48,6 +49,8 @@ const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
   };
 
   const renderRows = (rows: MazeData[]) => {
+    if (!rows.length) return <RowTableEmpty />;
+
     return rows.map((row) => (
       row.processing?.status === "COMPLETED" ? renderCompletedRow(row) : renderPendingRow(row)
     ));

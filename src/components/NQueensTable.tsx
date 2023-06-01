@@ -25,6 +25,7 @@ import {
 import { useRouter } from "next/router";
 
 import { QueenIcon } from "./QueenIcon";
+import RowTableEmpty from "./RowTableEmpty";
 
 export type NQueensData = {
   id: string;
@@ -43,8 +44,10 @@ type Prop = {
 const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
   const router = useRouter();
 
-  const renderRows = (nQueensData: NQueensData[]) => {
-    return nQueensData.map((row: any) => (
+  const renderRows = (rows: NQueensData[]) => {
+    if (!rows.length) return <RowTableEmpty />;
+
+    return rows.map((row: any) => (
       row.processing?.status === "PENDING" 
         ? renderPendingRow(row)
         : renderCompletedRow(row)
