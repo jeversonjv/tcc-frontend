@@ -46,6 +46,72 @@ const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
     setBoard(generateSudokuBoard());
   };
 
+  const renderRows = (rows: SudokuData[]) => {
+    return rows.map((row) => (
+      row.processing?.status === "COMPLETED" ? renderCompletedRow(row) : renderPendingRow(row)
+    ));
+  }
+
+  const renderCompletedRow = (row: SudokuData) => {
+    return (
+      <Tr
+        cursor="pointer"
+        transition="backdrop-filter 0.2s"
+        _hover={{
+          backdropFilter: "brightness(1.15)",
+        }}
+      >
+        <Td fontWeight="bold" color="gray.200">
+          {row.id.split("-")[0]}
+        </Td>
+        <Td>
+          <Badge colorScheme="green">Resolvido</Badge>
+        </Td>
+        <Td color="gray.200">{row.processing?.totalTimeProcess.toFixed(2)} ms</Td>
+        <Td isNumeric>
+          <ChevronRightIcon color="gray.400" boxSize={5} />
+        </Td>
+      </Tr>
+    );
+  }
+
+  const renderPendingRow = (row: SudokuData) => {
+    return (
+      <Tr
+        cursor="not-allowed"
+        transition="backdrop-filter 0.2s"
+        _hover={{
+          backdropFilter: "brightness(1.15)",
+        }}
+      >
+        <Td fontWeight="bold" color="gray.200">
+          {row.id.split("-")[0]}
+        </Td>
+        <Td>
+          <Badge
+            colorScheme="purple"
+            display="flex"
+            width="95px"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            Pendente{" "}
+            <Spinner
+              speed="0.75s"
+              emptyColor="gray.300"
+              size="sm"
+              mr={1}
+            />
+          </Badge>
+        </Td>
+        <Td color="gray.200">-</Td>
+        <Td isNumeric>
+          <ChevronRightIcon color="gray.400" boxSize={5} />
+        </Td>
+      </Tr>
+    );
+  }
+
   return (
     <>
       <TableContainer>
@@ -59,110 +125,7 @@ const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr
-              cursor="pointer"
-              transition="backdrop-filter 0.2s"
-              _hover={{
-                backdropFilter: "brightness(1.15)",
-              }}
-            >
-              <Td fontWeight="bold" color="gray.200">
-                15
-              </Td>
-              <Td>
-                <Badge colorScheme="green">Resolvido</Badge>
-              </Td>
-              <Td color="gray.200">200.5 ms</Td>
-              <Td isNumeric>
-                <ChevronRightIcon color="gray.400" boxSize={5} />
-              </Td>
-            </Tr>
-            <Tr
-              cursor="pointer"
-              transition="backdrop-filter 0.2s"
-              _hover={{
-                backdropFilter: "brightness(1.15)",
-              }}
-            >
-              <Td fontWeight="bold" color="gray.200">
-                15
-              </Td>
-              <Td>
-                <Badge colorScheme="green">Resolvido</Badge>
-              </Td>
-              <Td color="gray.200">200.5 ms</Td>
-              <Td isNumeric>
-                <ChevronRightIcon color="gray.400" boxSize={5} />
-              </Td>
-            </Tr>
-            <Tr
-              cursor="pointer"
-              transition="backdrop-filter 0.2s"
-              _hover={{
-                backdropFilter: "brightness(1.15)",
-              }}
-            >
-              <Td fontWeight="bold" color="gray.200">
-                15
-              </Td>
-              <Td>
-                <Badge colorScheme="green">Resolvido</Badge>
-              </Td>
-              <Td color="gray.200">200.5 ms</Td>
-              <Td isNumeric>
-                <ChevronRightIcon color="gray.400" boxSize={5} />
-              </Td>
-            </Tr>
-            <Tr
-              cursor="pointer"
-              transition="backdrop-filter 0.2s"
-              _hover={{
-                backdropFilter: "brightness(1.15)",
-              }}
-            >
-              <Td fontWeight="bold" color="gray.200">
-                15
-              </Td>
-              <Td>
-                <Badge colorScheme="green">Resolvido</Badge>
-              </Td>
-              <Td color="gray.200">200.5 ms</Td>
-              <Td isNumeric>
-                <ChevronRightIcon color="gray.400" boxSize={5} />
-              </Td>
-            </Tr>
-            <Tr
-              cursor="not-allowed"
-              transition="backdrop-filter 0.2s"
-              _hover={{
-                backdropFilter: "brightness(1.15)",
-              }}
-            >
-              <Td fontWeight="bold" color="gray.200">
-                10
-              </Td>
-              <Td>
-                <Badge
-                  colorScheme="purple"
-                  display="flex"
-                  width="95px"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  Pendente{" "}
-                  <Spinner
-                    speed="0.75s"
-                    emptyColor="gray.300"
-                    size="sm"
-                    mr={1}
-                  />
-                </Badge>
-              </Td>
-              <Td color="gray.200">-</Td>
-              <Td isNumeric>
-                <ChevronRightIcon color="gray.400" boxSize={5} />
-              </Td>
-            </Tr>
+            {renderRows(sudokuData)}
           </Tbody>
         </Table>
       </TableContainer>
