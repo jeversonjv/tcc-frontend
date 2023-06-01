@@ -33,6 +33,76 @@ type Prop = {
 const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
   const router = useRouter();
 
+  const renderRows = (nQueensData: any[]) => {
+    return nQueensData.map((row: any) => (
+      row.processing?.status === "PENDING" 
+        ? renderPendingRow(row)
+        : renderCompletedRow(row)
+    ));
+  }
+
+  const renderCompletedRow = (row: any) => {
+    return (
+      <Tr
+        cursor="pointer"
+        role="link"
+        transition="backdrop-filter 0.2s"
+        _hover={{
+          backdropFilter: "brightness(1.15)",
+        }}
+        onClick={() => router.push(`/nqueen/${row.id}`)}
+      >
+        <Td fontWeight="bold" color="gray.200">
+          {row.numberOfQueens} <QueenIcon boxSize="18px" />
+        </Td>
+        <Td>
+          <Badge colorScheme="green">Resolvido</Badge>
+        </Td>
+        <Td color="gray.200">{row.processing?.totalTimeProcess?.toFixed(2)} ms</Td>
+        <Td isNumeric>
+          <ChevronRightIcon color="gray.400" boxSize={5} />
+        </Td>
+      </Tr>
+    );
+  }
+
+  const renderPendingRow = (row: any) => {
+    return (
+      <Tr
+        cursor="not-allowed"
+        transition="backdrop-filter 0.2s"
+        _hover={{
+          backdropFilter: "brightness(1.15)",
+        }}
+      >
+        <Td fontWeight="bold" color="gray.200">
+          {row.numberOfQueens} <QueenIcon boxSize="18px" />
+        </Td>
+        <Td>
+          <Badge
+            colorScheme="purple"
+            display="flex"
+            width="95px"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            Pendente{" "}
+            <Spinner
+              speed="0.75s"
+              emptyColor="gray.300"
+              size="sm"
+              mr={1}
+            />
+          </Badge>
+        </Td>
+        <Td color="gray.200">-</Td>
+        <Td isNumeric>
+          <ChevronRightIcon color="gray.400" boxSize={5} />
+        </Td>
+      </Tr>
+    );
+  }
+
   return (
     <>
       <TableContainer>
@@ -46,58 +116,7 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData }: Prop) => {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr
-              cursor="pointer"
-              role="link"
-              transition="backdrop-filter 0.2s"
-              _hover={{
-                backdropFilter: "brightness(1.15)",
-              }}
-              onClick={() => router.push(`/nqueen/${1}`)}
-            >
-              <Td fontWeight="bold" color="gray.200">
-                15 <QueenIcon boxSize="18px" />
-              </Td>
-              <Td>
-                <Badge colorScheme="green">Resolvido</Badge>
-              </Td>
-              <Td color="gray.200">200.5 ms</Td>
-              <Td isNumeric>
-                <ChevronRightIcon color="gray.400" boxSize={5} />
-              </Td>
-            </Tr>
-            <Tr
-              cursor="not-allowed"
-              transition="backdrop-filter 0.2s"
-              _hover={{
-                backdropFilter: "brightness(1.15)",
-              }}
-            >
-              <Td fontWeight="bold" color="gray.200">
-                10 <QueenIcon boxSize="18px" />
-              </Td>
-              <Td>
-                <Badge
-                  colorScheme="purple"
-                  display="flex"
-                  width="95px"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  Pendente{" "}
-                  <Spinner
-                    speed="0.75s"
-                    emptyColor="gray.300"
-                    size="sm"
-                    mr={1}
-                  />
-                </Badge>
-              </Td>
-              <Td color="gray.200">-</Td>
-              <Td isNumeric>
-                <ChevronRightIcon color="gray.400" boxSize={5} />
-              </Td>
-            </Tr>
+            {renderRows(nQueensData) as any}
           </Tbody>
         </Table>
       </TableContainer>
