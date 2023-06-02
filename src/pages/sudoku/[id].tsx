@@ -11,13 +11,13 @@ import {
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const NQueenDetails: React.FC = () => {
+const SudokuDetails: React.FC = () => {
   const router = useRouter();
   
   return (
     <>
       <Head>
-        <title>N-Queen</title>
+        <title>Sudoku</title>
       </Head>
       <main>
         <Container maxWidth={1100} paddingY={20}>
@@ -26,11 +26,11 @@ const NQueenDetails: React.FC = () => {
               <BreadcrumbLink href="/" >Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem fontWeight="bold" color="blue.500" isCurrentPage>
-              <BreadcrumbLink>N-Queen</BreadcrumbLink>
+              <BreadcrumbLink>Sudoku</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
           <Box>
-            <Heading mb={5}>N-Queen</Heading>
+            <Heading mb={5}>Sudoku</Heading>
             <Card bg="gray.800">
               {router.query.id}
             </Card>
@@ -41,4 +41,4 @@ const NQueenDetails: React.FC = () => {
   );
 }
 
-export default NQueenDetails;
+export default SudokuDetails;
