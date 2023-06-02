@@ -22,6 +22,8 @@ import Sudoku from "./Sudoku";
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
 import RowTableEmpty from "./RowTableEmpty";
+import MazeSolverBoard from "./Maze";
+import { generateMazeBoard } from "@/utils/generateMazeBoard";
 
 export type MazeData = {
   id: string;
@@ -39,13 +41,15 @@ type Prop = {
 
 const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
   const [board, setBoard] = useState<number[][]>();
+  const rows = 15;
+  const cols = 15;
 
   useEffect(() => {
-    setBoard(generateSudokuBoard());
+    setBoard(generateMazeBoard(rows, cols));
   }, []);
 
   const generateNewBoard = () => {
-    setBoard(generateSudokuBoard());
+    setBoard(generateMazeBoard(rows, cols));
   };
 
   const renderRows = (rows: MazeData[]) => {
@@ -167,9 +171,9 @@ const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
                 alignItems="center"
               >
                 <Text maxW="45%" mb={5}>
-                  Gere tabuleiros Sudoku 9x9 para serem resolvidos.
+                  Gere tabuleiros Maze {rows}x{cols} para serem resolvidos.
                 </Text>
-                {board && <Sudoku board={board} />}
+                {board && <MazeSolverBoard board={board} rows={rows} cols={cols} />}
                 <Box mt={5}>
                   <Button
                     mr={5}

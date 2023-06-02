@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
-import { Box, Button } from '@chakra-ui/react';
-import { generateMazeBoard } from '@/utils/generateMazeBoard';
+import React from 'react';
+import { Box } from '@chakra-ui/react';
 
-const MazeSolverBoard: React.FC = () => {
-  const [board, setBoard] = useState<number[][]>([]);
-  const rows = 15;
-  const cols = 15;
+type Props = {
+  board: number[][];
+  rows: number;
+  cols: number;
+}
 
-  const generateMaze = () => {
-    const newBoard = generateMazeBoard(rows, cols);
-    setBoard(newBoard);
-  };
-
+const MazeSolverBoard: React.FC<Props> = ({ board, rows, cols }) => {
   const getCellColor = (cell: number, i: number, y: number): string => {
     if (i === 0 && y === 0) {
       return 'green.400';
@@ -28,8 +24,12 @@ const MazeSolverBoard: React.FC = () => {
     }
   }
 
+  if (!board) {
+    return null;
+  }
+
   return (
-    <Box p={4} display="flex" flexDirection={'column'} alignItems={"center"} justifyContent={"center"} marginTop="10">
+    <Box p={4} display="flex" flexDirection={'column'} alignItems={"center"} justifyContent={"center"}>
       <Box display="grid" gridTemplateColumns={`repeat(${cols}, 1fr)`} gridGap={0} w="lg" h={"65vh"}>
         {board.flatMap((row, rowIndex) =>
           row.map((cell, colIndex) => (
@@ -37,16 +37,13 @@ const MazeSolverBoard: React.FC = () => {
               key={`${rowIndex}-${colIndex}`}
               bg={getCellColor(cell, rowIndex, colIndex)}
               borderWidth={1}
-              borderColor="gray.400"
+              borderColor="blackAlpha.400"
               h="100%"
               w="100%"
             />
           ))
         )}
       </Box>
-      <Button mb={4} onClick={generateMaze} marginTop="10">
-        Generate Maze
-      </Button>
     </Box>
   );
 };

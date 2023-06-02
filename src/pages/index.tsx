@@ -103,13 +103,6 @@ export default function Home() {
               {mazeSolver ? <MazeTable mazeData={mazeSolver} /> : <p>Carregando...</p>}
             </Card>
           </Box>
-
-          <Box mt="100px">
-            <Heading mb={5}>Maze Solver</Heading>
-            <Card bg="gray.800">
-              <MazeSolverBoard/>
-            </Card>
-          </Box>
         </Container>
       </main>
     </>
