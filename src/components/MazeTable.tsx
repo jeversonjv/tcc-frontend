@@ -16,14 +16,13 @@ import {
   Tr,
   Text,
   Button,
+  useToast,
 } from "@chakra-ui/react";
-import Sudoku from "./Sudoku";
-
-import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
 import RowTableEmpty from "./RowTableEmpty";
 import MazeSolverBoard from "./Maze";
 import { generateMazeBoard } from "@/utils/generateMazeBoard";
+import axios from "axios";
 
 export type MazeData = {
   id: string;
@@ -36,10 +35,13 @@ export type MazeData = {
 
 type Prop = {
   mazeData: MazeData[];
+  fetchMazeSolverData: () => Promise<void>;
 }
 
 
-const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
+const MazeTable: React.FC<Prop> = ({ mazeData, fetchMazeSolverData }: Prop) => {
+  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
+  const toast = useToast();
   const [board, setBoard] = useState<number[][]>();
   const rows = 15;
   const cols = 15;
@@ -120,6 +122,41 @@ const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
     );
   }
 
+  const createRecordMaze = async () => {
+    try {
+      const response = await axios.post(`${apiBaseUrl}/maze-resolver`, {
+        maze: board,
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (response.status === 201) {
+        await fetchMazeSolverData();
+      }
+
+      toast({
+        title: "Registro criado com sucesso",
+        description: "O registro foi criado com sucesso.",
+        status: "success",
+        isClosable: true,
+        duration: 5000,
+        position: "top-right",
+      })
+
+    } catch (error) {
+      toast({
+        title: "Erro ao criar registro",
+        description: "Ocorreu um erro ao criar o registro, tente novamente mais tarde.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      })
+    }
+  }
+
   return (
     <>
       <TableContainer>
@@ -174,7 +211,7 @@ const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
                   Gere tabuleiros Maze {rows}x{cols} para serem resolvidos.
                 </Text>
                 {board && <MazeSolverBoard board={board} rows={rows} cols={cols} />}
-                <Box mt={5}>
+                <Box mt={5} display={'flex'}>
                   <Button
                     mr={5}
                     bg="teal.200"
@@ -184,13 +221,16 @@ const MazeTable: React.FC<Prop> = ({ mazeData }: Prop) => {
                   >
                     Gerar
                   </Button>
-                  <Button
-                    bg="blue.200"
-                    _hover={{ bg: "blue.300" }}
-                    color="blue.800"
-                  >
-                    Resolver
-                  </Button>
+                  <AccordionButton padding={0}>
+                    <Button
+                      bg="blue.200"
+                      _hover={{ bg: "blue.300" }}
+                      color="blue.800"
+                      onClick={createRecordMaze}
+                    >
+                      Resolver
+                    </Button>
+                  </AccordionButton>
                 </Box>
               </AccordionPanel>
             </>

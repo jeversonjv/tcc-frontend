@@ -100,7 +100,7 @@ export default function Home() {
           <Box mt="100px">
             <Heading mb={5}>Maze Solver</Heading>
             <Card bg="gray.800">
-              {mazeSolver ? <MazeTable mazeData={mazeSolver} /> : <p>Carregando...</p>}
+              {mazeSolver ? <MazeTable mazeData={mazeSolver} fetchMazeSolverData={fetchMazeSolverData} /> : <p>Carregando...</p>}
             </Card>
           </Box>
         </Container>
