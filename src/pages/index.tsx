@@ -14,6 +14,7 @@ import SudokuTable from "@/components/SudokuTable";
 import MazeTable, { MazeData } from "@/components/MazeTable";
 import axios from 'axios';
 import { useEffect, useState } from "react";
+import MazeSolverBoard from "@/components/Maze";
 
 export default function Home() {
   const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
@@ -100,6 +101,13 @@ export default function Home() {
             <Heading mb={5}>Maze Solver</Heading>
             <Card bg="gray.800">
               {mazeSolver ? <MazeTable mazeData={mazeSolver} /> : <p>Carregando...</p>}
+            </Card>
+          </Box>
+
+          <Box mt="100px">
+            <Heading mb={5}>Maze Solver</Heading>
+            <Card bg="gray.800">
+              <MazeSolverBoard/>
             </Card>
           </Box>
         </Container>
