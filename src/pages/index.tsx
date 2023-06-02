@@ -14,7 +14,6 @@ import SudokuTable from "@/components/SudokuTable";
 import MazeTable, { MazeData } from "@/components/MazeTable";
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import MazeSolverBoard from "@/components/Maze";
 
 export default function Home() {
   const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
