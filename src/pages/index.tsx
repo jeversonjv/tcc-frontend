@@ -31,7 +31,7 @@ export default function Home() {
     }
   };
 
-  const fetchSudoku = async () => {
+  const fetchSudokuData = async () => {
     try {
       const response = await axios.get(`${apiBaseUrl}/sudoku`);
       setSudoku(response.data);
@@ -40,7 +40,7 @@ export default function Home() {
     }
   };
 
-  const fetchMazeSolver = async () => {
+  const fetchMazeSolverData = async () => {
     try {
       const response = await axios.get(`${apiBaseUrl}/maze-resolver`);
       setMazeSolver(response.data);
@@ -52,15 +52,15 @@ export default function Home() {
   useEffect(() => {
     Promise.all([
       fetchNQueenData(),
-      fetchSudoku(),
-      fetchMazeSolver()
+      fetchSudokuData(),
+      fetchMazeSolverData()
     ]);
 
     const intervalId = setInterval(() => {
       Promise.all([
         fetchNQueenData(),
-        fetchSudoku(),
-        fetchMazeSolver()
+        fetchSudokuData(),
+        fetchMazeSolverData()
       ]);
     }, 5000);
 
@@ -92,7 +92,7 @@ export default function Home() {
           <Box mt="100px">
             <Heading mb={5}>Sudoku</Heading>
             <Card bg="gray.800">
-              {sudoku ? <SudokuTable sudokuData={sudoku} /> : <p>Carregando...</p>}
+              {sudoku ? <SudokuTable sudokuData={sudoku} fetchSudokuData={fetchSudokuData} /> : <p>Carregando...</p>}
             </Card>
           </Box>
 

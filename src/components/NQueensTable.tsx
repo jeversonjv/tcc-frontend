@@ -124,9 +124,7 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData, fetchNQueenData }: Prop) =>
 
   const createRecordNQueen = async () => {
     try {
-      const response = await axios.post(`${apiBaseUrl}/n-queen/${numberOfQueens}`, {
-        method: 'POST',
-      });
+      const response = await axios.post(`${apiBaseUrl}/n-queen/${numberOfQueens}`);
 
       if (response.status === 201) {
         await fetchNQueenData();
@@ -170,7 +168,7 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData, fetchNQueenData }: Prop) =>
           </Tbody>
         </Table>
       </TableContainer>
-      <Accordion border="none" allowToggle>
+      <Accordion border="none" allowToggle >
         <AccordionItem>
           {({ isExpanded }) => (
             <>
@@ -228,15 +226,17 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData, fetchNQueenData }: Prop) =>
                         _hover={{ bg: "gray.900" }}
                       />
                     </NumberInput>
-                    <Button
-                      ml={5}
-                      bg="blue.200"
-                      _hover={{ bg: "blue.300" }}
-                      color="blue.800"
-                      onClick={() => createRecordNQueen()}
-                    >
-                      Resolver
-                    </Button>
+                    <AccordionButton padding={0}>
+                      <Button
+                        ml={5}
+                        bg="blue.200"
+                        _hover={{ bg: "blue.300" }}
+                        color="blue.800"
+                        onClick={() => createRecordNQueen()}
+                      >
+                        Resolver
+                      </Button>
+                    </AccordionButton>
                   </InputGroup>
                 </Box>
               </AccordionPanel>

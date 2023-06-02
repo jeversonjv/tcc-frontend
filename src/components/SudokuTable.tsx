@@ -16,12 +16,14 @@ import {
   Tr,
   Text,
   Button,
+  useToast
 } from "@chakra-ui/react";
 import Sudoku from "./Sudoku";
 
 import { generateSudokuBoard } from "../utils/generateSudokuBoard";
 import { useEffect, useState } from "react";
 import RowTableEmpty from "./RowTableEmpty";
+import axios from "axios";
 
 export type SudokuData = {
   id: string;
@@ -34,9 +36,12 @@ export type SudokuData = {
 
 type Prop = {
   sudokuData: SudokuData[];
+  fetchSudokuData: () => Promise<void>;
 }
 
-const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
+const SudokuTable: React.FC<Prop> = ({ sudokuData, fetchSudokuData }: Prop) => {
+  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
+  const toast = useToast();
   const [board, setBoard] = useState<number[][]>();
 
   useEffect(() => {
@@ -115,6 +120,42 @@ const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
     );
   }
 
+  const createRecordSudoku = async () => {
+    try {
+      const response = await axios.post(`${apiBaseUrl}/sudoku`, {
+        sudoku: board,
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (response.status === 201) {
+        await fetchSudokuData();
+      }
+
+      toast({
+        title: "Registro criado com sucesso",
+        description: "O registro foi criado com sucesso.",
+        status: "success",
+        isClosable: true,
+        duration: 5000,
+        position: "top-right",
+      })
+
+    } catch (error) {
+      toast({
+        title: "Erro ao criar registro",
+        description: "Ocorreu um erro ao criar o registro, tente novamente mais tarde.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      })
+    }
+  }
+
+
   return (
     <>
       <TableContainer>
@@ -169,7 +210,7 @@ const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
                   Gere tabuleiros Sudoku 9x9 para serem resolvidos.
                 </Text>
                 {board && <Sudoku board={board} />}
-                <Box mt={5}>
+                <Box mt={5} display={'flex'}>
                   <Button
                     mr={5}
                     bg="teal.200"
@@ -179,13 +220,16 @@ const SudokuTable: React.FC<Prop> = ({ sudokuData }: Prop) => {
                   >
                     Gerar
                   </Button>
-                  <Button
-                    bg="blue.200"
-                    _hover={{ bg: "blue.300" }}
-                    color="blue.800"
-                  >
-                    Resolver
-                  </Button>
+                  <AccordionButton padding={0}>
+                    <Button
+                      bg="blue.200"
+                      _hover={{ bg: "blue.300" }}
+                      color="blue.800"
+                      onClick={createRecordSudoku}
+                    >
+                      Resolver
+                    </Button>
+                  </AccordionButton>
                 </Box>
               </AccordionPanel>
             </>
