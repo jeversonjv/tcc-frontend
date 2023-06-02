@@ -23,6 +23,7 @@ import RowTableEmpty from "./RowTableEmpty";
 import MazeSolverBoard from "./Maze";
 import { generateMazeBoard } from "@/utils/generateMazeBoard";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export type MazeData = {
   id: string;
@@ -42,6 +43,7 @@ type Prop = {
 const MazeTable: React.FC<Prop> = ({ mazeData, fetchMazeSolverData }: Prop) => {
   const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
   const toast = useToast();
+  const router = useRouter();
   const [board, setBoard] = useState<number[][]>();
   const rows = 15;
   const cols = 15;
@@ -70,6 +72,7 @@ const MazeTable: React.FC<Prop> = ({ mazeData, fetchMazeSolverData }: Prop) => {
         _hover={{
           backdropFilter: "brightness(1.15)",
         }}
+        onClick={() => router.push(`/maze/${row.id}`)}
       >
         <Td fontWeight="bold" color="gray.200">
           {row.id.split("-")[0]}
