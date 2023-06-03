@@ -63,7 +63,7 @@ export default function Home() {
         fetchSudokuData(),
         fetchMazeSolverData()
       ]);
-    }, 5000);
+    }, 2000);
 
     return () => {
       clearInterval(intervalId);

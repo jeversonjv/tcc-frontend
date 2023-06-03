@@ -5,16 +5,22 @@ type Props = {
   board: number[][];
   rows: number;
   cols: number;
+  resultPaths?: number[][];
 }
 
-const MazeSolverBoard: React.FC<Props> = ({ board, rows, cols }) => {
+const MazeSolverBoard: React.FC<Props> = ({ board, rows, cols, resultPaths }) => {
+  console.log(board, rows, cols, resultPaths)
   const getCellColor = (cell: number, i: number, y: number): string => {
     if (i === 0 && y === 0) {
-      return 'green.400';
+      return 'blue.400';
     }
   
     if (i === rows - 1 && y === cols - 1) {
       return 'red.400';
+    }
+
+    if(resultPaths && resultPaths.find((path) => path[0] === i && path[1] === y)) {
+      return 'green.400';
     }
 
     if (cell === 0) {

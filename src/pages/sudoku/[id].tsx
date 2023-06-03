@@ -48,7 +48,7 @@ const SudokuDetails: React.FC = () => {
         <Container maxWidth={1100} paddingY={20}>
           <Breadcrumb mb={5}>
             <BreadcrumbItem fontWeight="bold" color="blue.500">
-              <BreadcrumbLink href="/" >Home</BreadcrumbLink>
+              <BreadcrumbLink onClick={() => router.push('/')} >Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem fontWeight="bold" color="blue.500" isCurrentPage>
               <BreadcrumbLink>Sudoku</BreadcrumbLink>
