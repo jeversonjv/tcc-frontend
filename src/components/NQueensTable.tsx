@@ -203,7 +203,7 @@ const NQueensTable: React.FC<Prop> = ({ nQueensData, fetchNQueenData }: Prop) =>
               >
                 <Text maxW="45%">
                   Insira o número N de rainhas que serão posicionadas em um
-                  tabuleiro NxN sem que uma rainha mate a outra.
+                  tabuleiro NxN sem que uma rainha capture a outra.
                 </Text>
                 <Box>
                   <FormLabel htmlFor="numQueens">Número de Rainhas</FormLabel>
