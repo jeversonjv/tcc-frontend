@@ -28,6 +28,7 @@ import { useState } from "react";
 import axios from "axios";
 import { QueenIcon } from "./QueenIcon";
 import RowTableEmpty from "./RowTableEmpty";
+import { getEnv } from "@/utils/getEnv";
 
 export type NQueensData = {
   id: string;
@@ -45,7 +46,7 @@ type Prop = {
 }
 
 const NQueensTable: React.FC<Prop> = ({ nQueensData, fetchNQueenData }: Prop) => {
-  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
+  const apiBaseUrl = getEnv('API_BASE_URL', 'http://localhost:3000/api/v1');
   const router = useRouter();
   const toast = useToast();
   const [numberOfQueens, setNumberOfQueens] = useState<number>(4);

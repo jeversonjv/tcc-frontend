@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import RowTableEmpty from "./RowTableEmpty";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { getEnv } from "@/utils/getEnv";
 
 export type SudokuData = {
   id: string;
@@ -41,7 +42,7 @@ type Prop = {
 }
 
 const SudokuTable: React.FC<Prop> = ({ sudokuData, fetchSudokuData }: Prop) => {
-  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
+  const apiBaseUrl = getEnv('API_BASE_URL', 'http://localhost:3000/api/v1');
   const toast = useToast();
   const router = useRouter();
   const [board, setBoard] = useState<number[][]>();

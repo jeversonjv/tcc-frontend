@@ -13,9 +13,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import Sudoku from "@/components/Sudoku";
+import { getEnv } from "@/utils/getEnv";
 
 const SudokuDetails: React.FC = () => {
-  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
+  const apiBaseUrl = getEnv('API_BASE_URL', 'http://localhost:3000/api/v1');
   const router = useRouter();
   const [totalTimeToProcess, setTotalTimeToProcess] = React.useState<number>(0);
   const [board, setBoard] = React.useState<number[][]>();

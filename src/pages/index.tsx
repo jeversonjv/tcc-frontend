@@ -14,9 +14,10 @@ import SudokuTable from "@/components/SudokuTable";
 import MazeTable, { MazeData } from "@/components/MazeTable";
 import axios from 'axios';
 import { useEffect, useState } from "react";
+import { getEnv } from "@/utils/getEnv";
 
 export default function Home() {
-  const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:3000/api/v1';
+  const apiBaseUrl = getEnv('API_BASE_URL', 'http://localhost:3000/api/v1');
 
   const [nQueens, setNQueens] = useState<[] | null>(null);
   const [sudoku, setSudoku] = useState<[] | null>(null);
